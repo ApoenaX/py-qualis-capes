@@ -17,10 +17,10 @@ from qualis_capes import QualisCapes
 qualis = QualisCapes()
 
 # Obter a data de quando as tabelas foram baixadas
-print(qualis.get_last_update())
+print(qualis.last_update)
 #>'02/09/2021 12:34:56'
 
-# Atualizar dados
+# Atualiza com os dados mais recentes
 qualis.update_data()
 #>'03/09/2021 21:23:30'
 
