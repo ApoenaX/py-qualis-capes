@@ -67,9 +67,15 @@ def _download_data(keyword: str = "quadriênio") -> None:
         #  realiza solicitação para fazer download do arquivo
         response = session.post(_url, data=data, stream=True, headers=headers)
 
+        # nome do arquivo
+        filename = eval(
+            response.headers.get("Content-Disposition").split("filename=")[-1]
+        )
+        filename, ext = filename.split(".")
+
         # definição de propriedades da progress bar
         total_size_in_bytes = int(response.headers.get("content-length", 0))
-        block_size = 1024
+        block_size = 3 * 1024
         progress_bar = tqdm(
             total=total_size_in_bytes,
             unit="iB",
@@ -78,7 +84,7 @@ def _download_data(keyword: str = "quadriênio") -> None:
         )
 
         # realizar o download do arquivo no disco
-        with open(os.path.join(_ROOT, f"data/{keyword}.tsv"), "wb") as file:
+        with open(os.path.join(_ROOT, f"data/{keyword}.{ext}"), "wb") as file:
             for data in response.iter_content(block_size, decode_unicode=True):
                 progress_bar.update(len(data))
                 file.write(data)

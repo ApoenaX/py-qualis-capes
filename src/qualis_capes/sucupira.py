@@ -13,14 +13,12 @@ class QualisCapes:
 
     def __load_data__(self):
         self.trien = pd.read_csv(
-            os.path.join(self._ROOT, "data/triênio.tsv"),
+            os.path.join(self._ROOT, "data/triênio.xls"),
             encoding="ISO-8859-1",
             sep="\t",
         )
-        self.quadr = pd.read_csv(
-            os.path.join(self._ROOT, "data/quadriênio.tsv"),
-            encoding="ISO-8859-1",
-            sep="\t",
+        self.quadr = pd.read_excel(
+            os.path.join(self._ROOT, "data/quadriênio.xlsx")
         )
         with open(os.path.join(self._ROOT, "data/last-update.txt"), "r") as text_file:
             self.last_update = text_file.read()
