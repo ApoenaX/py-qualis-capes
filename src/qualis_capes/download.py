@@ -13,9 +13,13 @@ def _get_event_option(html: str, name: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
     event = soup.find("select", {"id": "form:evento"})
     if event:
-        for op in event.findAll("option")[1:]:
-            if keyword in op.get_text():
-                return op.get("value")
+        events = sorted({
+            e.attrs.get('value'): e.get_text() 
+            for e in event.findAll("option")[1:] 
+            if keyword in e.get_text()
+        }.items(), key=lambda d: d[1])
+        key = events[-1][0] if events else None
+        return key
 
 
 def _download_data(keyword: str = "quadriênio") -> None:
